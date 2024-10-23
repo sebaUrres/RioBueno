@@ -13,3 +13,6 @@ def coordinador(request):
 
 def inventario(request):
     return render(request, 'inventario.html')
+
+def dashinsumos(request):
+    return render(request, 'dashboardinsumos.html')

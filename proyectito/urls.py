@@ -23,5 +23,6 @@ urlpatterns = [
     path("login/", app.login),
     path("enfermero/", app.enfermero),
     path("coordinador/", app.coordinador),
-    path("inventario/", app.inventario)
+    path("inventario/", app.inventario),
+    path("dashinsumos/", app.dashinsumos)
 ]
