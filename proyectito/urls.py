@@ -24,5 +24,9 @@ urlpatterns = [
     path("enfermero/", app.enfermero),
     path("coordinador/", app.coordinador),
     path("inventario/", app.inventario),
-    path("dashinsumos/", app.dashinsumos)
+    path("dashinsumos/", app.dashinsumos),
+    path("dashvisitas/", app.dashvisitas),
+    path("detvisita/", app.detvisita),
+    path("regvisita/", app.regvisita),
+    path("pacientes/", app.pacientes)
 ]
