@@ -1,0 +1,51 @@
+{%include 'loginTop.html'%}
+
+<section class="vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-black text-center">
+                        <form>
+                            <!-- Texto Bienvenido centrado -->
+                            <div class="d-flex justify-content-center mb-5">
+                                <span class="h1 fw-bold">¡Bienvenido!</span>
+                            </div>
+
+                            <!-- Botones en 2 columnas -->
+                            <div class="row text-center">
+                                <!-- Columna izquierda -->
+                                <div class="col-md-6">
+                                    <!-- Botón de Paciente -->
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4>Visitas de paciente</h4>
+                                        <button class="btn btn-primary btn-lg" type="button">Administrar visitas</button>
+                                    </div>
+
+                                    <!-- Botón de Médico -->
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4>Omnicell</h4>
+                                        <button class="btn btn-secondary btn-lg" type="button">Ver Omnicell</button>
+                                    </div>
+                                </div>
+
+                                <!-- Columna derecha -->
+                                <div class="col-md-6">
+                                    <!-- Botón de Administrador -->
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4>Pacientes</h4>
+                                        <button class="btn btn-success btn-lg" type="button">Ver panel de pacientes</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}
