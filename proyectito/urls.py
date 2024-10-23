@@ -28,5 +28,7 @@ urlpatterns = [
     path("dashvisitas/", app.dashvisitas),
     path("detvisita/", app.detvisita),
     path("regvisita/", app.regvisita),
-    path("pacientes/", app.pacientes)
+    path("pacientes/", app.pacientes),
+    path("ultvisitas/", app.ultimasV),
+    path("pedidoomnicell/", app.enfpedidos)
 ]

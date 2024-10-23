@@ -1,0 +1,51 @@
+{%include 'loginTop.html'%}
+
+<section class="min-vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-black text-center">
+                        <form>
+
+                            <!-- Menú desplegable y caja de texto -->
+                            <div class="row mb-4">
+                                <div class="col-md-10">
+                                    <select class="form-select" aria-label="Seleccionar opción">
+                                        <option selected></option>
+                                        <option value="1">Ibuprofeno 400mg</option>
+                                        <option value="2">Gaza</option>
+                                        <option value="3">Suero</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" placeholder="Cantidad" aria-label="Texto pequeño">
+                                </div>
+                            </div>
+
+                            
+
+                            <!-- Botones en 2 columnas -->
+                            <div class="row text-center">
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <button class="btn btn-warning btn-lg" type="button">Regresar</button>
+                                    </div>
+                                </div>
+
+                                <!-- Columna derecha -->
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <button class="btn btn-success btn-lg" type="button">Realizar Pedido</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}
