@@ -7,3 +7,6 @@ def login(request):
 
 def enfermero(request):
     return render(request, 'dashboardEnfermero.html')
+
+def coordinador(request):
+    return render(request, 'dashboardCoordinador.html')
