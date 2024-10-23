@@ -1,0 +1,83 @@
+{% include 'loginTop.html' %}
+<section class="vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-black text-center">
+
+                        <!-- Botón Volver en la parte superior izquierda -->
+                        <div class="text-start mb-4">
+                            <a href="ruta_de_tu_pag_volver" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Volver
+                            </a>
+                        </div>
+
+                        <h3 class="mb-4">Lista de Remedios</h3>
+
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Nombre del Remedio</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Método de uso</th>
+                                    <th scope="col">Principio Activo</th>
+                                    <th scope="col">Contraindicaciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Paracetamol</td>
+                                    <td>Analgésico y antipirético para el dolor leve y moderado.</td>
+                                    <td>20 tabletas</td>
+                                    <td>Tomar 1-2 tabletas cada 8 horas, según sea necesario.</td>
+                                    <td>Paracetamol (500 mg)</td>
+                                    <td>No usar en personas con insuficiencia hepática o alcoholismo.</td>
+                                </tr>
+                                <tr>
+                                    <td>Ibuprofeno</td>
+                                    <td>Antiinflamatorio no esteroideo (AINE) para dolor, fiebre e inflamación.</td>
+                                    <td>30 cápsulas</td>
+                                    <td>Tomar 1 cápsula cada 6-8 horas. No exceder 4 cápsulas al día.</td>
+                                    <td>Ibuprofeno (400 mg)</td>
+                                    <td>No usar en personas con úlceras gástricas o problemas renales.</td>
+                                </tr>
+                                <tr>
+                                    <td>Omeprazol</td>
+                                    <td>Inhibidor de la bomba de protones, usado para tratar el reflujo gástrico y úlceras.</td>
+                                    <td>14 cápsulas</td>
+                                    <td>Tomar 1 cápsula por la mañana antes de los alimentos durante 14 días.</td>
+                                    <td>Omeprazol (20 mg)</td>
+                                    <td>No usar en personas con hipersensibilidad a los inhibidores de la bomba de protones.</td>
+                                </tr>
+                                <tr>
+                                    <td>Amoxicilina</td>
+                                    <td>Antibiótico de amplio espectro, usado para infecciones bacterianas.</td>
+                                    <td>21 tabletas</td>
+                                    <td>Tomar 1 tableta cada 8 horas durante 7 días.</td>
+                                    <td>Amoxicilina (500 mg)</td>
+                                    <td>No usar en personas alérgicas a los antibióticos del grupo de las penicilinas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4">
+                            <button class="btn btn-primary btn-action">
+                                <i class="bi bi-plus"></i> Agregar
+                            </button>
+                            <button class="btn btn-warning btn-action">
+                                <i class="bi bi-pencil"></i> Editar
+                            </button>
+                            <button class="btn btn-danger btn-action">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'footer.html' %}

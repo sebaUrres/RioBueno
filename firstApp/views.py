@@ -10,3 +10,6 @@ def enfermero(request):
 
 def coordinador(request):
     return render(request, 'dashboardCoordinador.html')
+
+def inventario(request):
+    return render(request, 'inventario.html')
