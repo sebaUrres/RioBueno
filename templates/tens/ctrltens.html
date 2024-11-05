@@ -1,0 +1,121 @@
+{%include 'loginTop.html'%}
+
+<section class="min-vh-100" style="background-color: #cef2ff; height: auto;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card shadow-lg" style="border-radius: 1rem; background-color: #f9fbfc;">
+                    <div class="card-body p-5 text-black">
+                        <form>
+                            
+                            <div class="d-flex justify-content-center mb-5">
+                                <span class="h1 fw-bold" style="color: #007bff;">Registro de visita de enfermería</span>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                
+                                <div class="form-group mb-4">
+                                    <label for="fullName" class="form-label">Nombre completo: </label>
+                                    <label>-Nombre completo-</label>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="rut" class="form-label">RUT: </label>
+                                    <label>-RUT-</label>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="age" class="form-label">Edad: </label>
+                                    <label>-Edad-</label>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="address" class="form-label">Dirección: </label>
+                                    <label>-Dirección-</label>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="morbidityHistory" class="form-label">Antecedentes mórbidos</label>
+                                    <textarea class="form-control rounded p-3" id="antecedentesMorbidos" rows="3" placeholder="Antecedentes mórbidos del paciente"></textarea>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="visitTime" class="form-label">Hora de la visita</label>
+                                    <input type="time" class="form-control rounded-pill p-3" id="horaVisita">
+                                </div>
+
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-4">
+                                        <label for="bloodPressure" class="form-label">Presión arterial</label>
+                                        <input type="text" class="form-control rounded-pill p-3" id="presionArterial" placeholder="Ej: 120/80">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="heartRate" class="form-label">Frecuencia cardíaca</label>
+                                        <input type="number" class="form-control rounded-pill p-3" id="frecuenciaCardiaca" placeholder="Pulsaciones por minuto">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="saturometry" class="form-label">Saturometría</label>
+                                        <input type="number" class="form-control rounded-pill p-3" id="saturometria" placeholder="Nivel de oxígeno (%)">
+                                    </div>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="temperature" class="form-label">Temperatura</label>
+                                    <input type="number" class="form-control rounded-pill p-3" id="temperatura" step="0.1" placeholder="Grados Celsius">
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="hemoglucotest" class="form-label">Hemoglucotest</label>
+                                    <input type="number" class="form-control rounded-pill p-3" id="hemoglucotest" step="0.1" placeholder="Nivel de glucosa">
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="visitReason" class="form-label">Motivo de la visita</label>
+                                    <input type="text" class="form-control rounded-pill p-3" id="motivoVisita" placeholder="Motivo principal de la visita">
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="baseTreatment" class="form-label">Tratamiento base</label>
+                                    <textarea class="form-control rounded p-3" id="tratamientoBase" rows="3" placeholder="Tratamiento habitual del paciente"></textarea>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="observations" class="form-label">Observaciones</label>
+                                    <textarea class="form-control rounded p-3" id="observaciones" rows="4" placeholder="Observaciones adicionales"></textarea>
+                                </div>
+
+                                
+                                <div class="form-group mb-4">
+                                    <label for="visitResponsible" class="form-label">Nombre del responsable de la visita</label>
+                                    <input type="text" class="form-control rounded-pill p-3" id="nombreResponsable" placeholder="Nombre del enfermero a cargo">
+                                </div>
+
+                                
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary btn-lg rounded-pill" type="submit">Guardar registro</button>
+                                </div>
+                                <div class="d-grid gap-2 mt-4"> 
+                                    <a href="/dashvisitas/" class="btn btn-success btn-lg rounded-pill">Retroceder</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}

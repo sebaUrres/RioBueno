@@ -1,0 +1,47 @@
+{%include 'loginTop.html'%}
+
+<section class="min-vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card shadow-lg" style="border-radius: 1rem; background-color: #f9fbfc;">
+                    <div class="card-body p-5 text-black">
+                        <form>
+                            <div class="d-flex justify-content-center mb-5">
+                                <span class="h1 fw-bold" style="color: #007bff;">Administración de Visitas</span>
+                            </div>
+
+                            <div class="row text-center">
+                                <div class="col-md-12 mb-4">
+                                    <select class="form-select" aria-label="Seleccionar opción">
+                                        <option value="1">Paciente 1</option>
+                                        <option value="2">Paciente 2</option>
+                                        <option value="3">...</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4 class="text-primary">Control</h4>
+                                        <a href="/controltens/" class="btn btn-primary btn-lg rounded-pill shadow-sm">Realizar Control</a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4 class="text-success">Historial de visitas</h4>
+                                        <a href="/ultvisitastens/" class="btn btn-success btn-lg rounded-pill shadow-sm">Ultimas Visitas</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="d-grid gap-2 mt-3"> 
+                        <a href="/tens/" class="btn btn-success btn-lg rounded-pill">Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}

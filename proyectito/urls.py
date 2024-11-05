@@ -21,8 +21,8 @@ from firstApp import views as app
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("login/", app.login),
+    #enfermero
     path("enfermero/", app.enfermero),
-    path("coordinador/", app.coordinador),
     path("inventario/", app.inventario),
     path("dashinsumos/", app.dashinsumos),
     path("dashvisitas/", app.dashvisitas),
@@ -30,5 +30,24 @@ urlpatterns = [
     path("regvisita/", app.regvisita),
     path("pacientes/", app.pacientes),
     path("ultvisitas/", app.ultimasV),
-    path("pedidoomnicell/", app.enfpedidos)
+    path("pedidoomnicell/", app.enfpedidos),
+
+
+    #coordinador
+    path("coordinador/", app.coordinador),
+    path("coordPacientes/", app.coordpacientes),
+
+
+    #tens
+    path("tens/", app.tens),
+    path("dashvisitastens/", app.dashvisitastens),
+    path("controltens/", app.controltens),
+    path("ultvisitastens/", app.ultvisitastens),
+    path("invtens/", app.invtens),
+    path("pacientestens/", app.pacientestens),
+
+
+    #omnicell
+    
+    
 ]

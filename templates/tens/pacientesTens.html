@@ -1,0 +1,69 @@
+{%include 'loginTop.html'%}
+
+<section class="min-vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card shadow-lg" style="border-radius: 1rem; background-color: #f9fbfc;">
+                    <div class="card-body p-5 text-black">
+                        
+                        <div class="d-flex justify-content-center mb-5">
+                            <span class="h1 fw-bold" style="color: #007bff;">Historial de Pacientes</span>
+                        </div>
+
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Nombre del Paciente</th>
+                                        <th scope="col">Cantidad de Visitas</th>
+                                        <th scope="col">Detalles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Juan Pérez</td>
+                                        <td>3</td>
+                                        <td>
+                                            <a href="/detvisita/" class="btn btn-info btn-sm">Ver detalles</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>María González</td>
+                                        <td>2</td>
+                                        <td>
+                                            <a href=""class="btn btn-info btn-sm">Ver detalles</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carlos Fernández</td>
+                                        <td>5</td>
+                                        <td>
+                                            <a href="" class="btn btn-info btn-sm">Ver detalles</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lucía Martínez</td>
+                                        <td>1</td>
+                                        <td>
+                                            <a href="" class="btn btn-info btn-sm">Ver detalles</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                       
+                        <div class="d-grid gap-2 mt-4">
+                            <a href="/tens/" class="btn btn-success btn-lg rounded-pill">Regresar</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}
