@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from firstApp.models import *
+from . import forms
+from .forms import *
 
 # Create your views here.
 
@@ -22,7 +25,17 @@ def detvisita(request):
     return render(request, 'enfermero/detallesVpaciente.html')
 
 def regvisita(request):
-    return render(request, 'enfermero/Dashboard-RegistroV.html')
+    form = IngresoVisitaForms()  
+    if request.method == 'POST':
+        form = IngresoVisitaForms(request.POST)
+        if form.is_valid():
+            visita = form.save(commit=False) 
+            visita.paciente_id = 1 
+            visita.trabajador_id = 1  
+            visita.save()
+            return redirect('dashvisitas')  
+    context = {'form': form}  
+    return render(request, 'enfermero/Dashboard-RegistroV.html', context)
 
 def pacientes(request):
     return render(request, 'enfermero/Dashboard-Pacientes.html')

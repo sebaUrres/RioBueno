@@ -5,22 +5,22 @@ class TipoUsuario(models.Model):
 
 
 class Trabajador(models.Model):
-    nombres = models.TextField()
-    apellidos = models.TextField()
-    telefono = models.TextField()
+    nombres = models.TextField(max_length=30)
+    apellidos = models.TextField(max_length=30)
+    telefono = models.TextField(max_length=12)
     email = models.EmailField()
-    rut = models.TextField(unique=True)
-    contraseña = models.TextField()
+    rut = models.TextField(unique=True, max_length=12)
+    contraseña = models.TextField(max_length=20)
     tipo = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE)
     estado = models.IntegerField(default=1)
 
 
 class Paciente(models.Model):
-    nombres = models.TextField()
-    apellidos = models.TextField()
-    rut = models.TextField(unique=True)
+    nombres = models.TextField(max_length=30)
+    apellidos = models.TextField(max_length=30)
+    rut = models.TextField(unique=True, max_length=12)
     edad = models.IntegerField()
-    direccion = models.TextField(blank=True, null=True)
+    direccion = models.TextField(blank=True, null=True, max_length=30)
 
 
 class Visita(models.Model):
@@ -28,11 +28,11 @@ class Visita(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     antecedentes = models.TextField(blank=True, null=True)
     fechavisita = models.DateTimeField()
-    presionart = models.TextField(blank=True, null=True)
-    frecuenciacard = models.TextField(blank=True, null=True)
-    saturometria = models.TextField(blank=True, null=True)
-    temperatura = models.TextField(blank=True, null=True)
-    hemoglucotest = models.TextField(blank=True, null=True)
+    presionart = models.TextField(blank=True, null=True,max_length=10)
+    frecuenciacard = models.TextField(blank=True, null=True,max_length=10)
+    saturometria = models.TextField(blank=True, null=True,max_length=10)
+    temperatura = models.TextField(blank=True, null=True,max_length=10)
+    hemoglucotest = models.TextField(blank=True, null=True,max_length=10)
     motivovisita = models.TextField()
     indicaciones = models.TextField(blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
@@ -40,14 +40,14 @@ class Visita(models.Model):
 
 class Inventario(models.Model):
     trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    item = models.TextField()
+    item = models.TextField(max_length=30)
     descripcion = models.TextField(blank=True, null=True)
     cantidad = models.IntegerField()
-    metodouso = models.TextField(blank=True, null=True)
-    contraindicaciones = models.TextField(blank=True, null=True)
+    metodouso = models.TextField(blank=True, null=True,max_length=100)
+    contraindicaciones = models.TextField(blank=True, null=True,max_length=100)
 
 
 class PedidoOmnicell(models.Model):
     trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    item = models.TextField()
+    item = models.TextField(max_length=30)
     cantidad = models.IntegerField()
