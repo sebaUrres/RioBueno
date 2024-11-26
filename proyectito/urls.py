@@ -18,9 +18,12 @@ from django.contrib import admin
 from django.urls import path
 from firstApp import views as app
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("login/", app.login),
+    path('login/', app.login, name='login'),
+    path('logout/', app.logout, name='logout'),
     #enfermero
     path("enfermero/", app.enfermero),
     path("inventario/", app.inventario),
