@@ -10,7 +10,7 @@ class Trabajador(models.Model):
     telefono = models.TextField(max_length=12)
     email = models.EmailField()
     rut = models.TextField(unique=True, max_length=12)
-    contraseña = models.TextField(max_length=20)
+    contrasena = models.TextField(max_length=20)
     tipo = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE)
     estado = models.IntegerField(default=1)
 

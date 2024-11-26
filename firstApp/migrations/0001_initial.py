@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('telefono', models.TextField()),
                 ('email', models.EmailField(max_length=254)),
                 ('rut', models.TextField(unique=True)),
-                ('contraseña', models.TextField()),
+                ('contrasena', models.TextField()),
                 ('estado', models.IntegerField(default=1)),
                 ('tipo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='firstApp.tipousuario')),
             ],
