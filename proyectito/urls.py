@@ -27,11 +27,15 @@ urlpatterns = [
     #enfermero
     path("enfermero/", app.enfermero),
     path("inventario/", app.inventario),
+    path("inventarioAgregar/",app.inventarioAgregar),
+    path("inventarioSumar/<int:id>/", app.inventarioSumar),
+    path("inventarioRestar/<int:id>/", app.inventarioRestar),
     path("dashinsumos/", app.dashinsumos),
     path("dashvisitas/", app.dashvisitas),
-    path("detvisita/", app.detvisita),
+    path("detvisita/<int:paciente_id>/", app.detvisita),
     path("regvisita/", app.regvisita),
     path("pacientes/", app.pacientes),
+    path("regPaciente/", app.regPaciente),
     path("ultvisitas/", app.ultimasV),
     path("pedidoomnicell/", app.enfpedidos),
 

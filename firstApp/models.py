@@ -37,17 +37,28 @@ class Visita(models.Model):
     indicaciones = models.TextField(blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
 
-
-class Inventario(models.Model):
-    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+class Insumos(models.Model):
     item = models.TextField(max_length=30)
     descripcion = models.TextField(blank=True, null=True)
-    cantidad = models.IntegerField()
     metodouso = models.TextField(blank=True, null=True,max_length=100)
     contraindicaciones = models.TextField(blank=True, null=True,max_length=100)
 
+    def __str__(self):
+        return self.item
 
 class PedidoOmnicell(models.Model):
     trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    item = models.TextField(max_length=30)
+    item = models.ForeignKey(Insumos, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+
+class Inventario(models.Model):
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    item = models.ForeignKey(Insumos, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+
+class InventarioOmnicell(models.Model):
+    item = models.ForeignKey(Insumos, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+
+
+

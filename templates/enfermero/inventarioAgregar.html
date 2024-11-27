@@ -13,9 +13,9 @@
                             <div class="row mb-4">
                                 <div class="col-md-10">
                                     <select class="form-select" name="insumo" aria-label="Seleccionar opción">
-                                        <option value="" disabled selected>Seleccione un Insumo para pedir</option>
-                                        {% for i in items %}
-                                            <option value="{{ i.id }}">{{ i.item }}</option>
+                                        <option value="" disabled selected>Seleccione un item</option>
+                                        {% for insumo in insumos %}
+                                            <option value="{{ insumo.id }}">{{ insumo.item }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -30,14 +30,14 @@
                             <div class="row text-center">
                                 <div class="col-md-6">
                                     <div class="d-grid gap-2 mb-4">
-                                        <a href="/dashinsumos/" class="btn btn-warning btn-lg">Regresar</a>
+                                        <a href="/inventario/" class="btn btn-warning btn-lg">Regresar</a>
                                     </div>
                                 </div>
 
                                 <!-- Columna derecha -->
                                 <div class="col-md-6">
                                     <div class="d-grid gap-2 mb-4">
-                                        <button class="btn btn-success btn-lg" type="submit">Realizar Pedido</button>
+                                        <button class="btn btn-success btn-lg" type="submit">Agregar</button>
                                     </div>
                                 </div>
                             </div>

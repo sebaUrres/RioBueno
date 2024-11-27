@@ -16,62 +16,33 @@
                                     <tr>
                                         <th scope="col">Fecha de Visita</th>
                                         <th scope="col">Nombre del Paciente</th>
-                                        <th scope="col">RUT</th>
-                                        <th scope="col">Edad</th>
-                                        <th scope="col">Dirección</th>
+                                        <th scope="col">Antecedentes</th>
                                         <th scope="col">Presión Arterial</th>
                                         <th scope="col">Frecuencia Cardíaca</th>
                                         <th scope="col">Saturometría</th>
                                         <th scope="col">Temperatura</th>
                                         <th scope="col">Hemoglucotest</th>
                                         <th scope="col">Motivo de la Visita</th>
+                                        <th scope="col">Indicaciones</th>
                                         <th scope="col">Observaciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>2024-10-15</td>
-                                        <td>Juan Pérez</td>
-                                        <td>12.345.678-9</td>
-                                        <td>30</td>
-                                        <td>ejercito libertador</td>
-                                        <td>120/80</td>
-                                        <td>75</td>
-                                        <td>98%</td>
-                                        <td>36.5</td>
-                                        <td>90</td>
-                                        <td>Chequeo general</td>
-                                        <td>Ninguna observación relevante</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-09-30</td>
-                                        <td>Juan Pérez</td>
-                                        <td>12.345.678-9</td>
-                                        <td>30</td>
-                                        <td>ejercito libertador</td>
-                                        <td>125/85</td>
-                                        <td>80</td>
-                                        <td>97%</td>
-                                        <td>36.7</td>
-                                        <td>85</td>
-                                        <td>Control de glucosa</td>
-                                        <td>Observación: Glucosa alta</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2024-08-20</td>
-                                        <td>Juan Pérez</td>
-                                        <td>12.345.678-9</td>
-                                        <td>30</td>
-                                        <td>ejercito libertador</td>
-                                        <td>130/90</td>
-                                        <td>85</td>
-                                        <td>95%</td>
-                                        <td>37.0</td>
-                                        <td>95</td>
-                                        <td>Consulta de seguimiento</td>
-                                        <td>Revisar dieta y ejercicio</td>
-                                    </tr>
-                                    
+                                    {% for visita in visitas %}
+                                        <tr>
+                                            <td>{{ visita.fechavisita }}</td>
+                                            <td>{{ visita.paciente.nombres }} {{ visita.paciente.apellidos }}</td>
+                                            <td>{{ visita.antecedentes }}</td>
+                                            <td>{{ visita.presionart }}</td>
+                                            <td>{{ visita.frecuenciacard }}</td>
+                                            <td>{{ visita.saturometria }}</td>
+                                            <td>{{ visita.temperatura }}</td>
+                                            <td>{{ visita.hemoglucotest }}</td>
+                                            <td>{{ visita.motivovisita }}</td>
+                                            <td>{{ visita.indicaciones }}</td>
+                                            <td>{{ visita.observaciones }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
