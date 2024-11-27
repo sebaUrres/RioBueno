@@ -53,6 +53,7 @@ urlpatterns = [
     path("ultvisitastens/", app.ultvisitastens),
     path("invtens/", app.invtens),
     path("pacientestens/", app.pacientestens),
+    path("detvisitatens/<int:paciente_id>/", app.detvisitatens),
 
 
     #omnicell

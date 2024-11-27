@@ -160,7 +160,7 @@ def dashvisitas(request):
     return render(request, 'enfermero/Dashboard-Visitas.html')
 
 @session_required
-def detvisita(request, paciente_id):  # Aceptar el ID del paciente como argumento
+def detvisita(request, paciente_id):  
     if not request.session.get('user_id'):
         return redirect('/login/')
     
@@ -215,7 +215,8 @@ def regPaciente(request):
 def ultimasV(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
-    visitas = Visita.objects.select_related('paciente').all().order_by('-fechavisita')  
+    trabajador_id = request.session.get('user_id')
+    visitas = Visita.objects.filter(trabajador_id=trabajador_id).select_related('paciente').all().order_by('-fechavisita')  
     context = {'visitas': visitas}  # Agrega las visitas al contexto
     return render(request, 'enfermero/ultimasvisitas.html', context)
 
@@ -285,25 +286,67 @@ def dashvisitastens(request):
 def controltens(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
-    return render(request, 'tens/ctrltens.html')
+    
+    form = IngresoVisitaForms()
+    pacientes = Paciente.objects.all()
+    if request.method == 'POST':
+        form = IngresoVisitaForms(request.POST)
+        if form.is_valid():
+            visita = form.save(commit=False)
+            visita.paciente_id = request.POST.get('paciente')
+            visita.trabajador_id = request.session.get('user_id')
+            visita.save()
+            return redirect('/dashvisitastens')
+    context = {'form': form, 'pacientes': pacientes}
+    return render(request, 'tens/ctrltens.html', context)
 
 @session_required
 def ultvisitastens(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
-    return render(request, 'tens/ultvisitastens.html')
+    trabajador_id = request.session.get('user_id')
+    visitas = Visita.objects.filter(trabajador_id=trabajador_id).select_related('paciente').all().order_by('-fechavisita')  
+    context = {'visitas': visitas}  
+
+    return render(request, 'tens/ultvisitastens.html', context)
 
 @session_required
 def invtens(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
-    return render(request, 'tens/invtens.html')
+    
+    trabajador_id = request.GET.get('enfermero') 
+    # Filtrar los elementos del inventario por el ID del trabajador seleccionado
+    inventario_items = Inventario.objects.filter(trabajador_id=trabajador_id)
+
+    enfermeros = Trabajador.objects.filter(tipo__nombre='enfermero')
+    
+    context = {
+        'inventario': inventario_items, 
+        'pacientes': enfermeros
+    }
+    return render(request, 'tens/invTens.html', context)
+
+
 
 @session_required
 def pacientestens(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
-    return render(request, 'tens/pacientesTens.html')
+    pacientes = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')).all()
+    context = {'pacientes': pacientes}
+    return render(request, 'tens/pacientesTens.html',context)
+
+@session_required
+def detvisitatens(request, paciente_id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    visitas = Visita.objects.filter(paciente_id=paciente_id).select_related('paciente').all()
+    context = {'visitas': visitas}
+    return render(request, 'tens/pacientedetalle.html',context)
+
+
 
 
 # -------------------------------OMNICELL-------------------------
