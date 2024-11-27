@@ -3,6 +3,7 @@ from firstApp.models import *
 from . import forms
 from .forms import *
 import logging
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,8 @@ def login(request):
                     return redirect('/coordinador/')
                 elif trabajador.tipo.nombre == 'tens':
                     return redirect('/tens/')
+                elif trabajador.tipo.nombre == 'omnicell':
+                    return redirect('/omnicell/')
             else:
                 return render(request, 'login.html', {'error_message': 'RUT o Contraseña incorrecta'})
                 
@@ -136,6 +139,15 @@ def inventarioRestar(request, id):
     return redirect('/inventario')
 
 @session_required
+def inventarioBorrar(request,id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    item=Inventario.objects.get(id=id)
+    item.delete()
+    return redirect("/inventario")
+
+@session_required
 def dashinsumos(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
@@ -221,6 +233,8 @@ def enfpedidos(request):
             pedido = form.save(commit=False)
             pedido.item_id = item_id
             pedido.trabajador_id = trabajador_id
+            pedido.estado = 1
+            pedido.fecha = datetime.now()
             pedido.save()
             return redirect('/dashinsumos')
     
@@ -293,3 +307,124 @@ def pacientestens(request):
 
 
 # -------------------------------OMNICELL-------------------------
+
+@session_required
+def omni(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    context = {
+        'nombre_usuario': request.session.get('user_nombre', 'Usuario'),
+        'tipo_usuario': request.session.get('user_type', 'Sin rol')
+    }
+    return render(request, 'omnicell/dashOmni.html', context) 
+
+@session_required
+def bodegaOmni(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    # Cambiar para obtener todos los elementos de la tabla InventarioOmnicell
+    inventario_items = InventarioOmnicell.objects.all()  # Cambiado de Inventario a InventarioOmnicell
+    
+    context = {
+        'inventario': inventario_items
+    }
+    return render(request, 'omnicell/bodegaOmni.html', context)
+
+@session_required
+def bodegaAgregar(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    form = IngresoBodegaOmniForms()
+    if request.method == 'POST':
+        form = IngresoBodegaOmniForms(request.POST)
+        if form.is_valid():
+            item_id = request.POST.get('insumo')
+            
+            try:
+                item_existente = InventarioOmnicell.objects.get(item_id=item_id)
+                # Si existe, sumar la cantidad
+                item_existente.cantidad += form.cleaned_data['cantidad']  # Asegúrate de que 'cantidad' esté en el formulario
+                item_existente.save()
+            except InventarioOmnicell.DoesNotExist:
+                # Si no existe, crear un nuevo registro
+                item = form.save(commit=False)
+                item.item_id = item_id
+                item.save()
+                
+            return redirect('/bodegaOmni')
+    
+    insumos = Insumos.objects.all() 
+    context = {'form': form, 'insumos': insumos}
+    return render(request, 'omnicell/bodegaAgregar.html', context)
+
+@session_required
+def bodegaSumar(request, id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    item = InventarioOmnicell.objects.get(id=id)
+    item.cantidad += 1  
+    item.save()
+    return redirect('/bodegaOmni')
+
+@session_required
+def bodegaRestar(request, id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    item = InventarioOmnicell.objects.get(id=id)
+    item.cantidad -= 1 
+    if item.cantidad <= 0:
+        item.delete() 
+    else:
+        item.save() 
+    
+    return redirect('/bodegaOmni')
+
+@session_required
+def bodegaBorrar(request,id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    item=InventarioOmnicell.objects.get(id=id)
+    item.delete()
+    return redirect("/bodegaOmni")
+
+@session_required
+def pedidosOmni(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    pedidos = PedidoOmnicell.objects.select_related('trabajador').filter(estado=1) 
+    
+    context = {
+        'pedidos': pedidos
+    }
+    
+    return render(request, 'omnicell/pedidosOmni.html', context)
+
+@session_required
+def marcar_listo(request, id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    pedido = PedidoOmnicell.objects.get(id=id)
+    pedido.estado = 0  
+    pedido.save()
+    
+    return redirect('/pedidosOmni')
+
+@session_required
+def historialPedidos(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    pedidos = PedidoOmnicell.objects.select_related('trabajador').all()
+    
+    context = {
+        'pedidos': pedidos
+    }
+    
+    return render(request, 'omnicell/historialPedidos.html', context)

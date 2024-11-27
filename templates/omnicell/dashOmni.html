@@ -1,0 +1,46 @@
+{%include 'loginTop.html'%}
+
+<section class="vh-100" style="background-color: #616161;">
+    
+    <div class="position-absolute end-0 top-0 m-3">
+        <a href="/logout/" class="btn btn-danger btn-sm">Cerrar sesión</a>
+    </div>
+
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-black text-center">
+
+                        <form>
+                            <!-- Texto Bienvenido centrado -->
+                            <div class="d-flex justify-content-center mb-5">
+                                <span class="h1 fw-bold">¡Bienvenido, {{ nombre_usuario|default:"Usuario" }}!</span>
+                            </div>
+                            <div class="d-flex justify-content-center mb-4">
+                                <span class="h5">Rol: {{ tipo_usuario|default:"Sin rol" }}</span>
+                            </div>
+
+                            <!-- Botones en 2 columnas -->
+                            <div class="row text-center">
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <a href="/pedidosOmni/" class="btn btn-primary btn-lg">Pedidos</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2 mb-4">
+                                        <a href="/bodegaOmni/" class="btn btn-success btn-lg">Bodega</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{%include 'footer.html'%}

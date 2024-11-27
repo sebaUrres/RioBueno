@@ -26,3 +26,8 @@ class IngresoPedidoOmniForms(forms.ModelForm):
     class Meta:
         model= PedidoOmnicell
         fields=['cantidad']
+
+class IngresoBodegaOmniForms(forms.ModelForm):
+    class Meta:
+        model=InventarioOmnicell
+        fields=['cantidad']

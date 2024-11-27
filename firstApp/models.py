@@ -12,7 +12,7 @@ class Trabajador(models.Model):
     rut = models.TextField(unique=True, max_length=12)
     contrasena = models.TextField(max_length=20)
     tipo = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE)
-    estado = models.IntegerField(default=1)
+    estado = models.BooleanField(default=1)
 
 
 class Paciente(models.Model):
@@ -50,6 +50,8 @@ class PedidoOmnicell(models.Model):
     trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
     item = models.ForeignKey(Insumos, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
+    estado=models.BooleanField(default=1)
+    fecha=models.DateTimeField()
 
 class Inventario(models.Model):
     trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE)

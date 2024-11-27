@@ -8,7 +8,7 @@
 
                         <!-- Botón Volver en la parte superior izquierda -->
                         <div class="text-start mb-4">
-                            <a href="/dashinsumos/" class="btn btn-secondary">
+                            <a href="/omnicell/" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left"></i> Volver
                             </a>
                         </div>
@@ -35,17 +35,17 @@
                                     <td>{{ i.item.metodouso }}</td>
                                     <td>{{ i.item.contraindicaciones }}</td>
                                     <td>
-                                        <a href="../inventarioRestar/{{i.id}}"
+                                        <a href="../bodegaRestar/{{i.id}}"
                                           class='btn btn-warning'>-
                                        </a>
                                     </td>
                                     <td>
-                                        <a href="../inventarioSumar/{{i.id}}"
+                                        <a href="../bodegaSumar/{{i.id}}"
                                           class='btn btn-success'>+
                                        </a>
                                     </td>
                                     <td>
-                                        <a href="../inventarioBorrar/{{i.id}}"
+                                        <a href="../bodegaBorrar/{{i.id}}"
                                           class='btn btn-danger'><i class="bi bi-trash"></i>
                                        </a>
                                     </td>
@@ -55,7 +55,7 @@
                         </table>
 
                         <div class="mt-4">
-                            <a href="/inventarioAgregar" class="btn btn-primary btn-action">
+                            <a href="/bodegaAgregar" class="btn btn-primary btn-action">
                                 <i class="bi bi-plus"></i> Agregar
                             </a>
                         </div>

@@ -30,6 +30,7 @@ urlpatterns = [
     path("inventarioAgregar/",app.inventarioAgregar),
     path("inventarioSumar/<int:id>/", app.inventarioSumar),
     path("inventarioRestar/<int:id>/", app.inventarioRestar),
+    path("inventarioBorrar/<int:id>/", app.inventarioBorrar),
     path("dashinsumos/", app.dashinsumos),
     path("dashvisitas/", app.dashvisitas),
     path("detvisita/<int:paciente_id>/", app.detvisita),
@@ -55,6 +56,13 @@ urlpatterns = [
 
 
     #omnicell
-    
-    
+    path("omnicell/", app.omni),
+    path("bodegaOmni/", app.bodegaOmni),
+    path("bodegaAgregar/",app.bodegaAgregar),
+    path("bodegaSumar/<int:id>/", app.bodegaSumar),
+    path("bodegaRestar/<int:id>/", app.bodegaRestar),
+    path("bodegaBorrar/<int:id>/", app.bodegaBorrar),
+    path("pedidosOmni/",app.pedidosOmni),
+    path("marcarListo/<int:id>/", app.marcar_listo),
+    path("historialPedidos/",app.historialPedidos),
 ]

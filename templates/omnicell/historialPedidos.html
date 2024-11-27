@@ -1,0 +1,51 @@
+{% include 'loginTop.html' %}
+<section class="vh-100" style="background-color: #cef2ff;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-black text-center">
+
+                        <!-- Botón Volver en la parte superior izquierda -->
+                        <div class="d-flex justify-content-between mb-4">
+                            <div class="text-start">
+                                <a href="/pedidosOmni/" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Volver
+                                </a>
+                            </div>
+                        </div>
+
+                        <h3 class="mb-4">Listado de Pedidos</h3>
+
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">ID de Pedido</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Item Solicitado</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Profesional Solicitante</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in pedidos%}
+                                <tr>
+                                    <td>{{i.id}}</td>
+                                    <td>{{i.fecha}}</td>
+                                    <td>{{i.item.item}}</td>
+                                    <td>{{i.cantidad}}</td>
+                                    <td>{{i.trabajador.nombres}}</td>
+                                   
+                                    
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'footer.html' %}
