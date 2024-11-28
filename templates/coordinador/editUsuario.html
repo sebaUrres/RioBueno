@@ -1,0 +1,101 @@
+{%include 'loginTop.html'%}
+
+<section class="min-vh-100" style="background-color: #cef2ff; height: auto;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-8">
+                <div class="card shadow-lg" style="border-radius: 1rem; background-color: #f9fbfc;">
+                    <div class="card-body p-5 text-black">
+                        
+                            
+                            <div class="d-flex justify-content-center mb-5">
+                                <span class="h1 fw-bold" style="color: #007bff;">Registro de Usuario</span>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <div class="form-group mb-4">
+                                        <label for="antecedentes" class="form-label">Nombres</label>
+                                        <input type="text" class="form-control rounded-pill p-3" 
+                                            name="nombres" 
+                                            placeholder="Nombres"
+                                            value="{{ usuario.nombres }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="fechavisita" class="form-label">Apellidos</label>
+                                        <input type="text" class="form-control rounded-pill p-3" 
+                                            name="apellidos" 
+                                            value="{{ usuario.apellidos }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="presion_arterial" class="form-label">RUT</label>
+                                        <input type="text" class="form-control rounded-pill p-3" 
+                                            name="rut" 
+                                            placeholder="RUT"
+                                            value="{{ usuario.rut }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="presion_arterial" class="form-label">Contraseña</label>
+                                        <input type="text" class="form-control rounded-pill p-3" 
+                                            name="contrasena" 
+                                            placeholder="Contraseña"
+                                            value="{{ usuario.contrasena }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="frecuencia_cardiaca" class="form-label">Telefono</label>
+                                        <input type="number" class="form-control rounded-pill p-3" 
+                                            name="telefono" 
+                                            placeholder="Telefono"
+                                            value="{{ usuario.telefono }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="saturometria" class="form-label">Email</label>
+                                        <input type="text" class="form-control rounded-pill p-3" 
+                                            name="email" 
+                                            placeholder="E-Mail"
+                                            value="{{ usuario.email }}" 
+                                            required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="tipo_usuario" class="form-label">Tipo de Usuario</label>
+                                        <select class="form-control rounded-pill p-3" name="tipo" required>
+                                            <option value="">Seleccione un tipo de usuario</option>
+                                            {% for tipo in tipos_usuario %}
+                                                <option value="{{ tipo.id }}">{{ tipo.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    
+                                    
+
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary btn-lg rounded-pill" type="submit">Guardar registro</button>
+                                    </div>
+                                </form>
+                                <div class="d-grid gap-2 mt-4"> 
+                                    <a href="/usuarios/" class="btn btn-success btn-lg rounded-pill">Retroceder</a>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{%include 'footer.html'%}

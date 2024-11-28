@@ -10,23 +10,25 @@
                 <div class="card" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-black text-center">
                         <form>
-                            <!-- Texto Bienvenido centrado -->
                             <div class="d-flex justify-content-center mb-5">
-                                <span class="h1 fw-bold">¡Bienvenido, Coordinador!</span>
+                                <span class="h1 fw-bold">¡Bienvenido, {{ nombre_usuario|default:"Usuario" }}!</span>
+                            </div>
+                            <div class="d-flex justify-content-center mb-4">
+                                <span class="h5">Rol: {{ tipo_usuario|default:"Sin rol" }}</span>
                             </div>
 
-                            <!-- Botones en 2 columnas -->
                             <div class="row text-center">
                                 <!-- Columna izquierda -->
                                 <div class="col-md-6">
-                            
                                     <div class="d-grid gap-2 mb-4">
-                                        <h4>Programa</h4>
-                                        <button class="btn btn-warning btn-lg" type="button">Administrar Visitas</button>
+                                        <h4>Visitas</h4>
+                                        <a href="/coordultvisitas/" class="btn btn-warning btn-lg">Revisar Ultimas Visitas</a>
+                                    </div>
+                                    <div class="d-grid gap-2 mb-4">
+                                        <h4>Personal</h4>
+                                        <a href="/usuarios/" class="btn btn-primary btn-lg">Revisar Trabajadores</a>
                                     </div>
                                 </div>
-
-                               
 
                                 <!-- Columna derecha -->
                                 <div class="col-md-6">

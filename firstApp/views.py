@@ -5,6 +5,7 @@ from .forms import *
 import logging
 from datetime import datetime
 from django.db.models import Q
+from django.contrib.auth.hashers import make_password, check_password
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,10 @@ def login(request):
         try:
             trabajador = Trabajador.objects.get(rut=rut)
             
-            if trabajador.contrasena == password:
+            if trabajador.estado == 0:
+                return render(request, 'login.html', {'error_message': 'El usuario está inactivo. Por favor pidale al coordinador correspondiente que reactive su cuenta'})
+            
+            if check_password(password,trabajador.contrasena):
                 request.session['user_id'] = trabajador.id
                 request.session['user_type'] = trabajador.tipo.nombre
                 request.session['user_nombre'] = f"{trabajador.nombres} {trabajador.apellidos}"
@@ -341,23 +345,6 @@ def enfpedidos(request):
     }
     return render(request, 'enfermero/pedirOmnic.html', context)
 
-# -------------------------------COORDINADOR-----------------
-
-@session_required
-def coordinador(request):
-    if not request.session.get('user_id'):
-        return redirect('/login/')
-    context = {
-        'nombre_usuario': request.session.get('user_nombre', 'Usuario'),
-        'tipo_usuario': request.session.get('user_type', 'Sin rol')
-    }
-    return render(request, 'coordinador/dashboardCoordinador.html', context)
-
-@session_required
-def coordpacientes(request):
-    if not request.session.get('user_id'):
-        return redirect('/login/')
-    return render(request, 'coordinador/coordPacientes.html')
 
 # ---------------------TENS----------------------------------
 
@@ -405,6 +392,7 @@ def ultvisitastens(request):
 
     return render(request, 'tens/ultvisitastens.html', context)
 
+@session_required
 def ultvisitastenssearch(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
@@ -606,4 +594,158 @@ def historialPedidos(request):
     }
     
     return render(request, 'omnicell/historialPedidos.html', context)
+
+# -------------------------------COORDINADOR-----------------
+
+@session_required
+def coordinador(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    context = {
+        'nombre_usuario': request.session.get('user_nombre', 'Usuario'),
+        'tipo_usuario': request.session.get('user_type', 'Sin rol')
+    }
+    return render(request, 'coordinador/dashboardCoordinador.html', context)
+
+@session_required
+def coordpacientes(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    pacientes = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')).all()
+    context = {'pacientes': pacientes}
+    return render(request, 'coordinador/coordPacientes.html', context)
+
+@session_required
+def coordpacientessearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    query = request.GET.get('query', '')
+    
+    
+    if query != "":
+        resultados = Paciente.objects.filter(nombres__icontains=query).annotate(cantidad_visitas=models.Count('visita'))
+    else:
+        resultados = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')) 
+    
+    data = {'pacientes': resultados}
+    return render(request, 'coordinador/coordPacientes.html',data)
+
+@session_required
+def coorddetvisita(request, paciente_id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    visitas = Visita.objects.filter(paciente_id=paciente_id).select_related('paciente').all()
+    
+    context = {'visitas': visitas}
+    return render(request, 'coordinador/coorddetallevisita.html', context)
+
+
+@session_required
+def coordultimasvisitas(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    visitas = Visita.objects.select_related('paciente', 'trabajador').all().order_by('-fechavisita')  
+    context = {'visitas': visitas}  
+
+    return render(request, 'coordinador/ultimasvisitas.html', context)
+
+@session_required
+def coordultimasvisitassearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    fecha_desde = request.GET.get('fecha_desde', '')
+    fecha_hasta = request.GET.get('fecha_hasta', '')
+
+    filtros = Q() 
+
+    if fecha_desde:
+        try:
+            fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d')
+            filtros &= Q(fechavisita__gte=fecha_desde)
+        except ValueError:
+            pass  
+
+    if fecha_hasta:
+        try:
+            fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+            filtros &= Q(fechavisita__lte=fecha_hasta)
+        except ValueError:
+            pass  
+
+    resultados = Visita.objects.filter(filtros)
+    data = {'visitas': resultados}
+    return render(request, 'coordinador/ultimasvisitassearch.html', data)
+
+@session_required
+def registrousuario(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    form = RegistroUsuarioForms()
+    tipos_usuario = TipoUsuario.objects.all()
+    if request.method == 'POST':
+        form = RegistroUsuarioForms(request.POST)
+        if form.is_valid():
+            paciente = form.save(commit=False)
+            paciente.estado = 1
+
+            paciente.contrasena = make_password(form.cleaned_data['contrasena'])
+
+            paciente.save()
+            return redirect('/usuarios')
+        else:
+            print(form.errors)
+    context = {'form': form, 'tipos_usuario': tipos_usuario}
+    return render(request, 'coordinador/registrousuario.html', context)
+
+@session_required
+def usuarios(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    pacientes = Trabajador.objects.all()
+    context = {'usuarios': pacientes}
+    return render(request, 'coordinador/coordusuarios.html', context)
+
+@session_required
+def desactivar(request, id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    trabajador = Trabajador.objects.get(id=id)
+    trabajador.estado = 0 if trabajador.estado == 1 else 1 
+    trabajador.save()
+    
+    return redirect('/usuarios')  
+
+
+def coordusuariossearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    query = request.GET.get('query', '')
+    
+    if query:
+        resultados = Trabajador.objects.filter(nombres__icontains=query)
+    else:
+        resultados = Trabajador.objects.all() 
+    
+    data = {'usuarios': resultados}
+    return render(request, 'coordinador/coordusuariossearch.html', data)
+
+@session_required
+def editusuario(request, id):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    usuario = Trabajador.objects.get(id=id)
+    tipos_usuario = TipoUsuario.objects.all()
+    
+    if request.method == 'POST':
+        form = RegistroUsuarioForms(request.POST, instance=usuario)  
+        if form.is_valid():
+            form.save()  
+            return redirect('/usuarios')
+    else:
+        form = RegistroUsuarioForms(instance=usuario) 
+    
+    context = {'form': form, 'tipos_usuario': tipos_usuario, 'usuario': usuario}
+    return render(request, 'coordinador/editusuario.html', context)
 

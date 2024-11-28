@@ -31,3 +31,8 @@ class IngresoBodegaOmniForms(forms.ModelForm):
     class Meta:
         model=InventarioOmnicell
         fields=['cantidad']
+
+class RegistroUsuarioForms(forms.ModelForm):
+    class Meta:
+        model=Trabajador
+        fields=['nombres','apellidos','telefono','email','rut','contrasena','tipo']

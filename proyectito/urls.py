@@ -45,11 +45,6 @@ urlpatterns = [
     path("pedidoomnicell/", app.enfpedidos),
 
 
-    #coordinador
-    path("coordinador/", app.coordinador),
-    path("coordPacientes/", app.coordpacientes),
-
-
     #tens
     path("tens/", app.tens),
     path("dashvisitastens/", app.dashvisitastens),
@@ -72,4 +67,17 @@ urlpatterns = [
     path("pedidosOmni/",app.pedidosOmni),
     path("marcarListo/<int:id>/", app.marcar_listo),
     path("historialPedidos/",app.historialPedidos),
+
+    #coordinador
+    path("coordinador/", app.coordinador),
+    path("coordPacientes/", app.coordpacientes),
+    path("coordPacientessearch/", app.coordpacientessearch),    
+    path("coorddetvisita/<int:paciente_id>/", app.coorddetvisita),   
+    path("coordultvisitas/", app.coordultimasvisitas),
+    path("coordultvisitassearch/", app.coordultimasvisitassearch),
+    path("usuarios/", app.usuarios),
+    path("registrousuario/", app.registrousuario),
+    path("desactivar/<int:id>/", app.desactivar, name='desactivar'),
+    path("coordusuariossearch/", app.coordusuariossearch),
+    path("editusuario/<int:id>/", app.editusuario),
 ]
