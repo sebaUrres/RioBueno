@@ -33,11 +33,15 @@ urlpatterns = [
     path("inventarioBorrar/<int:id>/", app.inventarioBorrar),
     path("dashinsumos/", app.dashinsumos),
     path("dashvisitas/", app.dashvisitas),
-    path("detvisita/<int:paciente_id>/", app.detvisita),
+    path("detvisita/<int:paciente_id>/", app.detvisita, name='detvisita'),
+    path("detvisitaedit/<int:visita_id>/", app.detvisitaedit),
     path("regvisita/", app.regvisita),
     path("pacientes/", app.pacientes),
+    path("pacientessearch/", app.pacientessearch),
     path("regPaciente/", app.regPaciente),
     path("ultvisitas/", app.ultimasV),
+    path("ultvisitassearch/", app.ultimasVsearch),
+    path("ultvisitasedit/<int:visita_id>/", app.ultvisitasedit),
     path("pedidoomnicell/", app.enfpedidos),
 
 
@@ -51,8 +55,10 @@ urlpatterns = [
     path("dashvisitastens/", app.dashvisitastens),
     path("controltens/", app.controltens),
     path("ultvisitastens/", app.ultvisitastens),
+    path("ultvisitassearchtens/", app.ultvisitastenssearch),
     path("invtens/", app.invtens),
     path("pacientestens/", app.pacientestens),
+    path("pacientestenssearch/", app.pacientestenssearch),
     path("detvisitatens/<int:paciente_id>/", app.detvisitatens),
 
 

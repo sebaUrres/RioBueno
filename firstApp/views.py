@@ -4,6 +4,7 @@ from . import forms
 from .forms import *
 import logging
 from datetime import datetime
+from django.db.models import Q
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +100,7 @@ def inventarioAgregar(request):
             try:
                 item_existente = Inventario.objects.get(item_id=item_id, trabajador_id=trabajador_id)
                 # Si existe, sumar la cantidad
-                item_existente.cantidad += form.cleaned_data['cantidad']  # Asegúrate de que 'cantidad' esté en el formulario
+                item_existente.cantidad += form.cleaned_data['cantidad']  
                 item_existente.save()
             except Inventario.DoesNotExist:
                 # Si no existe, crear un nuevo registro
@@ -171,6 +172,22 @@ def detvisita(request, paciente_id):
     return render(request, 'enfermero/detallesVpaciente.html', context)
 
 @session_required
+def detvisitaedit(request, visita_id):  
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    visita = Visita.objects.get(id=visita_id)
+    form = IngresoVisitaForms(instance=visita)
+    if request.method == "POST":
+        form = IngresoVisitaForms(request.POST, instance=visita)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/detvisita/{visita.paciente_id}")
+    
+    data = {'form': form, 'visita': visita}  
+    return render(request, 'enfermero/detallesVpacienteedit.html', data)
+
+@session_required
 def regvisita(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
@@ -182,6 +199,7 @@ def regvisita(request):
             visita = form.save(commit=False)
             visita.paciente_id = request.POST.get('paciente')
             visita.trabajador_id = request.session.get('user_id')
+            
             visita.save()
             return redirect('/dashvisitas')
     context = {'form': form, 'pacientes': pacientes}
@@ -196,6 +214,20 @@ def pacientes(request):
     context = {'pacientes': pacientes}
     return render(request, 'enfermero/Dashboard-Pacientes.html', context)
 
+def pacientessearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    query = request.GET.get('query', '')
+    
+    
+    if query != "":
+        resultados = Paciente.objects.filter(nombres__icontains=query).annotate(cantidad_visitas=models.Count('visita'))
+    else:
+        resultados = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')) 
+    
+    data = {'pacientes': resultados}
+    return render(request, 'enfermero/Dashboard-Pacientessearch.html', data)
+
 @session_required
 def regPaciente(request):
     if not request.session.get('user_id'):
@@ -205,6 +237,26 @@ def regPaciente(request):
         form = RegistroPacienteForms(request.POST)
         if form.is_valid():
             paciente = form.save(commit=False)
+            
+            # Obtener el estado de los checkboxes
+            condiciones = []
+            if request.POST.get('asma'):
+                condiciones.append("asma ")
+            if request.POST.get('diabetes'):
+                condiciones.append("diabetes ")
+            if request.POST.get('artritis'):
+                condiciones.append("artritis ")
+            if request.POST.get('polvo'):
+                condiciones.append("polvo ")
+            if request.POST.get('moho'):
+                condiciones.append("moho ")
+            if request.POST.get('polen'):
+                condiciones.append("polen ")
+            
+            
+            # Unir las condiciones en un solo string
+            paciente.condiciones = " ".join(condiciones)  
+            
             paciente.save()
             return redirect('/pacientes')
     context = {'form': form}
@@ -219,6 +271,49 @@ def ultimasV(request):
     visitas = Visita.objects.filter(trabajador_id=trabajador_id).select_related('paciente').all().order_by('-fechavisita')  
     context = {'visitas': visitas}  # Agrega las visitas al contexto
     return render(request, 'enfermero/ultimasvisitas.html', context)
+
+@session_required
+def ultimasVsearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    fecha_desde = request.GET.get('fecha_desde', '')
+    fecha_hasta = request.GET.get('fecha_hasta', '')
+
+    filtros = Q(trabajador_id=request.session.get('user_id')) 
+
+    if fecha_desde:
+        try:
+            fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d')
+            filtros &= Q(fechavisita__gte=fecha_desde)
+        except ValueError:
+            pass  
+
+    if fecha_hasta:
+        try:
+            fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+            filtros &= Q(fechavisita__lte=fecha_hasta)
+        except ValueError:
+            pass  
+
+    resultados = Visita.objects.filter(filtros)
+    data = {'visitas': resultados}
+    return render(request, 'enfermero/ultvisitassearch.html', data)
+
+@session_required
+def ultvisitasedit(request, visita_id):  
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    
+    visita = Visita.objects.get(id=visita_id)
+    form = IngresoVisitaForms(instance=visita)
+    if request.method == "POST":
+        form = IngresoVisitaForms(request.POST, instance=visita)
+        if form.is_valid():
+            form.save()
+            return redirect("/ultvisitas")
+    
+    data = {'form': form, 'visita': visita}  
+    return render(request, 'enfermero/ultimasvisitasedit.html', data)
 
 @session_required
 def enfpedidos(request):
@@ -239,7 +334,7 @@ def enfpedidos(request):
             pedido.save()
             return redirect('/dashinsumos')
     
-    inventario_omnicell_items = InventarioOmnicell.objects.all()
+    inventario_omnicell_items = Insumos.objects.all()
     context = {
         'items': inventario_omnicell_items,
         'form': form
@@ -310,6 +405,32 @@ def ultvisitastens(request):
 
     return render(request, 'tens/ultvisitastens.html', context)
 
+def ultvisitastenssearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    fecha_desde = request.GET.get('fecha_desde', '')
+    fecha_hasta = request.GET.get('fecha_hasta', '')
+
+    filtros = Q(trabajador_id=request.session.get('user_id')) 
+
+    if fecha_desde:
+        try:
+            fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d')
+            filtros &= Q(fechavisita__gte=fecha_desde)
+        except ValueError:
+            pass  
+
+    if fecha_hasta:
+        try:
+            fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+            filtros &= Q(fechavisita__lte=fecha_hasta)
+        except ValueError:
+            pass  
+
+    resultados = Visita.objects.filter(filtros)
+    data = {'visitas': resultados}
+    return render(request, 'tens/ultvisitassearchtens.html', data)
+
 @session_required
 def invtens(request):
     if not request.session.get('user_id'):
@@ -336,6 +457,20 @@ def pacientestens(request):
     pacientes = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')).all()
     context = {'pacientes': pacientes}
     return render(request, 'tens/pacientesTens.html',context)
+
+def pacientestenssearch(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
+    query = request.GET.get('query', '')
+    
+    
+    if query != "":
+        resultados = Paciente.objects.filter(nombres__icontains=query).annotate(cantidad_visitas=models.Count('visita'))
+    else:
+        resultados = Paciente.objects.annotate(cantidad_visitas=models.Count('visita')) 
+    
+    data = {'pacientes': resultados}
+    return render(request, 'tens/pacientestenssearch.html', data)
 
 @session_required
 def detvisitatens(request, paciente_id):
@@ -388,7 +523,7 @@ def bodegaAgregar(request):
             try:
                 item_existente = InventarioOmnicell.objects.get(item_id=item_id)
                 # Si existe, sumar la cantidad
-                item_existente.cantidad += form.cleaned_data['cantidad']  # Asegúrate de que 'cantidad' esté en el formulario
+                item_existente.cantidad += form.cleaned_data['cantidad']  
                 item_existente.save()
             except InventarioOmnicell.DoesNotExist:
                 # Si no existe, crear un nuevo registro
@@ -464,10 +599,11 @@ def historialPedidos(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
     
-    pedidos = PedidoOmnicell.objects.select_related('trabajador').all()
+    pedidos = PedidoOmnicell.objects.select_related('trabajador').filter(estado=0)
     
     context = {
         'pedidos': pedidos
     }
     
     return render(request, 'omnicell/historialPedidos.html', context)
+

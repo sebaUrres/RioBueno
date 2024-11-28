@@ -21,6 +21,7 @@ class Paciente(models.Model):
     rut = models.TextField(unique=True, max_length=12)
     edad = models.IntegerField()
     direccion = models.TextField(blank=True, null=True, max_length=30)
+    condiciones = models.TextField(max_length=100)
 
 
 class Visita(models.Model):

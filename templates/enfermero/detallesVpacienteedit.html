@@ -9,45 +9,30 @@
                         
                             
                             <div class="d-flex justify-content-center mb-5">
-                                <span class="h1 fw-bold" style="color: #007bff;">Registro de visita de enfermería</span>
+                                <span class="h1 fw-bold" style="color: #007bff;">Modificación de visita de enfermería</span>
                             </div>
 
                             
                             <div class="mb-4">
                                 <form method="POST" action="">
                                     {% csrf_token %}
-                                    <div class="form-group mb-4"></div>
-                                        <label for="paciente" class="form-label">Seleccionar Paciente</label>
-                                        <select class="form-control rounded-pill p-3" id="paciente" name="paciente" required onchange="updateAntecedentes()">
-                                            <option value="" disabled selected>Seleccione un paciente</option>
-                                            {% for paciente in pacientes %}
-                                                <option value="{{ paciente.id }}" data-condiciones="{{ paciente.condiciones }}">{{paciente.rut}} - {{ paciente.nombres }} {{ paciente.apellidos }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
                                     
                                     <div class="form-group mb-4">
-                                        <label for="antecedentes" class="form-label">Antecedentes y Alergias</label>
+                                        <label for="antecedentes" class="form-label">Antecedentes</label>
                                         <input type="text" class="form-control rounded-pill p-3" 
                                             id="antecedentes" 
                                             name="antecedentes" 
                                             placeholder="Antecedentes del paciente"
+                                            value="{{ visita.antecedentes }}" 
                                             required>
                                     </div>
-                                    <script>
-                                        function updateAntecedentes() {
-                                            const select = document.getElementById('paciente');
-                                            const antecedentesInput = document.getElementById('antecedentes');
-                                            const selectedOption = select.options[select.selectedIndex];
-                                            antecedentesInput.value = selectedOption.getAttribute('data-condiciones');
-                                        }
-                                    </script>
 
                                     <div class="form-group mb-4">
                                         <label for="fechavisita" class="form-label">Fecha de la visita</label>
                                         <input type="datetime-local" class="form-control rounded-pill p-3" 
                                             id="fechavisita" 
                                             name="fechavisita" 
+                                            value="{{ visita.fechavisita|date:'Y-m-d H:i' }}"
                                             required>
                                     </div>
 
@@ -58,6 +43,7 @@
                                             id="presion_arterial" 
                                             name="presionart" 
                                             placeholder="Presión arterial del paciente"
+                                            value="{{ visita.presionart }}"
                                             required>
                                     </div>
 
@@ -67,6 +53,7 @@
                                             id="frecuencia_cardiaca" 
                                             name="frecuenciacard" 
                                             placeholder="Frecuencia cardíaca del paciente"
+                                            value="{{ visita.frecuenciacard }}"
                                             required>
                                     </div>
 
@@ -76,6 +63,7 @@
                                             id="saturometria" 
                                             name="saturometria" 
                                             placeholder="Saturometría del paciente"
+                                            value="{{ visita.saturometria }}"
                                             required>
                                     </div>
 
@@ -86,6 +74,7 @@
                                                 id="temperatura" 
                                                 name="temperatura" 
                                                 placeholder="Temperatura del paciente"
+                                                value="{{ visita.temperatura }}" 
                                                 required>
                                         </div>
                                         <div class="col-md-4">
@@ -94,6 +83,7 @@
                                                 id="hemoglucotest" 
                                                 name="hemoglucotest" 
                                                 placeholder="Hemoglucotest del paciente"
+                                                value="{{ visita.hemoglucotest }}"
                                                 required>
                                         </div>
                                         <div class="col-md-4">
@@ -102,6 +92,7 @@
                                                 id="motivo_visita" 
                                                 name="motivovisita" 
                                                 placeholder="Motivo de la visita"
+                                                value="{{ visita.motivovisita }}"
                                                 required>
                                         </div>
                                     </div>
@@ -113,7 +104,7 @@
                                             name="indicaciones" 
                                             placeholder="Indicaciones del paciente"
                                             rows="3"
-                                            required></textarea>
+                                            required>{{ visita.indicaciones }}</textarea>
                                     </div>
 
                                     <div class="form-group mb-4">
@@ -123,7 +114,7 @@
                                             name="observaciones" 
                                             placeholder="Observaciones del paciente"
                                             rows="3"
-                                            required></textarea>
+                                            required>{{ visita.observaciones }}</textarea>
                                     </div>
 
                                     <div class="d-grid gap-2">
@@ -131,7 +122,7 @@
                                     </div>
                                 </form>
                                 <div class="d-grid gap-2 mt-4"> 
-                                    <a href="/dashvisitas/" class="btn btn-success btn-lg rounded-pill">Retroceder</a>
+                                    <a href="/detvisita/{{ visita.paciente_id }}" class="btn btn-success btn-lg rounded-pill">Retroceder</a>
                                 </div>
                             </div>
                         
